@@ -19,6 +19,7 @@ $app->get('/v1/cars/[{id}]', 'CarsController:infoCar');
 $app->post('/v1/cars', 'CarsController:createCar');
 $app->delete('/v1/cars/[{id}]', 'CarsController:removeCar');
 $app->put('/v1/cars/[{id}]', 'CarsController:updatedCar');
+$app->get('/v1/cars/search/{query}', 'CarsController:searchCar');
 
 
 

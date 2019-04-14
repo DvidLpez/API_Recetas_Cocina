@@ -44,6 +44,15 @@ class CarsController
         return $response->withJson($input);
     }
 
+    function searchCar($request, $response, $args) {
+        $sth = $this->settings->db->prepare("SELECT * FROM coches WHERE UPPER(modelo) LIKE :query ORDER BY modelo");
+        $query = "%".$args['query']."%";
+        $sth->bindParam("query", $query);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $response->withJson($todos);
+    }
+
     // Delete a car
     function removeCar($request, $response, $args) {
 
