@@ -1,21 +1,20 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => true, // set to false in production
-        'addContentLengthHeader' => false, // Allow the web server to send the content-length header
-
+        // set to false in production
+        'displayErrorDetails' => true,
+        // Allow the web server to send the content-length header
+        'addContentLengthHeader' => false,
         // Renderer settings
         'renderer' => [
             'template_path' => __DIR__ . '/../templates/',
         ],
-
         // Monolog settings
         'logger' => [
-            'name' => 'slim-app',
+            'name' => 'API-DLB',
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-
         // DataBase
         'db' => [
             'host' => 'PMYSQL105.dns-servicio.com:3306',
@@ -25,7 +24,7 @@ return [
         ],
         // jwt settings
         'jwt' => [
-            'secret' => 'upersecretkeyyoushouldnotcommittogithub',
+            'secret' => 'david1985cris1985azabache2004rosco2018',
             'algorithm' => 'HS256'
         ]
     ],
