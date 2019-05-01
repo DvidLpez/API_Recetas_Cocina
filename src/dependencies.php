@@ -33,3 +33,9 @@ $container['CarsController'] = function($c) {
      // retrieve the 'view' from the container
     return new App\Controllers\CarsController($c);
 };
+
+//User Controller
+$container['AuthController'] = function($c) {
+    // retrieve the 'view' from the container
+   return new App\Controllers\AuthController($c);
+};

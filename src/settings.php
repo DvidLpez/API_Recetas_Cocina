@@ -22,6 +22,11 @@ return [
             'dbname' => '6511652_api_dlb',
             'user' => 'Nocete170304',
             'pass' => 'Azabache.2018.Rosco'
+        ],
+        // jwt settings
+        'jwt' => [
+            'secret' => 'upersecretkeyyoushouldnotcommittogithub',
+            'algorithm' => 'HS256'
         ]
     ],
 ];

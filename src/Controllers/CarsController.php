@@ -14,6 +14,8 @@ class CarsController
     // List alls cars
     public function listCars($request, $response, $args) {
 
+        // print_r($request->getAttribute('decoded_token_data'));
+ 
         $sth = $this->settings->db->prepare("SELECT * FROM coches");
         $sth->execute();
         $todos = $sth->fetchAll();
