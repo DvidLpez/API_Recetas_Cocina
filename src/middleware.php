@@ -4,8 +4,8 @@
 
 // Middleware autenticación por token JWT
 $app->add(new \Tuupola\Middleware\JwtAuthentication([
-    "path" => ["/v1"], /* or ["/api", "/admin"] */
-    // "attribute" => "decoded_token_data", /* Mostrar attribute in view */
+    "path" => ["/api/v1"], /* or ["/api", "/admin"] */
+    "attribute" => "decoded_token_data",
     "secret" => $app->getContainer()->get('settings')['jwt']['secret'],
     "algorithm" => $app->getContainer()->get('settings')['jwt']['algorithm'],
     "error" => function ($response, $arguments) {

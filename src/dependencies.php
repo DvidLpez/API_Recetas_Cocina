@@ -1,14 +1,11 @@
 <?php
 // DIC configuration
-
 $container = $app->getContainer();
-
 // view renderer
 $container['renderer'] = function ($c) {
     $settings = $c->get('settings')['renderer'];
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
-
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
@@ -17,7 +14,6 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
-
 // DataBase PDO conection
 $container['db'] = function ($c) {
 
@@ -27,13 +23,11 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 };
-
 //Home Controller
 $container['CarsController'] = function($c) {
      // retrieve the 'view' from the container
     return new App\Controllers\CarsController($c);
 };
-
 //User Controller
 $container['AuthController'] = function($c) {
     // retrieve the 'view' from the container

@@ -1,83 +1,103 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\Car;
 
 class CarsController
 {
-    
-    public function __construct($c) {
-        // Logs
-        $c->logger->info("Slim-Skeleton '/' route");
+    public function __construct($c) 
+    {
         $this->settings = $c;
     }
-
-    // List alls cars
-    public function listCars($request, $response, $args) {
-
-        // print_r($request->getAttribute('decoded_token_data'));
- 
-        $sth = $this->settings->db->prepare("SELECT * FROM coches");
-        $sth->execute();
-        $todos = $sth->fetchAll();
+    /**
+     * List information cars
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args 
+     * @return Json $todos
+     */
+    public function listCars($request, $response, $args) 
+    {
+        $this->settings->logger->info("List cars");
+        // print_r( $request->getAttribute('decoded_token_data') );
+        $carModel = new Car($this->settings);
+        $todos = $carModel->listCars();
         return $response->withJson($todos);
     }
-
-    // List Info car
-    public function infoCar($request, $response, $args) {
-
-        $sth = $this->settings->db->prepare("SELECT * FROM coches WHERE id=:id");
-        $sth->bindParam("id", $args['id']);
-        $sth->execute();
-        $todos = $sth->fetchObject();
+    /**
+     * List information of one car
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args 
+     * @return Json $todos
+     */
+    public function infoCar($request, $response, $args)
+    {
+        $this->settings->logger->info("Information car");
+        $carModel = new Car($this->settings);
+        $id = $args['id'];
+        $todos = $carModel->infoCar($id);
         return $response->withJson($todos);
     }
-
-    // Add a new car
-    function createCar($request, $response) {
-
-        $input = $request->getParsedBody();
-        $sql = "INSERT INTO coches (fabricante, modelo, epoca) VALUES (:fabricante, :modelo, :epoca)";
-        $sth = $this->settings->db->prepare($sql);
-        $sth->bindParam("fabricante", $input['fabricante']);
-        $sth->bindParam("modelo", $input['modelo']);
-        $sth->bindParam("epoca", $input['epoca']);
-        $sth->execute();
-        $input['id'] = $this->settings->db->lastInsertId();
+    /**
+     * Register new car
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args 
+     * @return Json $input
+     */
+    function createCar($request, $response)
+    {
+        $this->settings->logger->info("Create car");
+        $carModel = new Car($this->settings);
+        $params = $request->getParsedBody();
+        $input = $carModel->CreateCar($params);
         return $response->withJson($input);
     }
-
-    function searchCar($request, $response, $args) {
-        $sth = $this->settings->db->prepare("SELECT * FROM coches WHERE UPPER(modelo) LIKE :query ORDER BY modelo");
-        $query = "%".$args['query']."%";
-        $sth->bindParam("query", $query);
-        $sth->execute();
-        $todos = $sth->fetchAll();
+    /**
+     * Search cars in car list
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args 
+     * @return Json $todos
+     */
+    function searchCar($request, $response, $args)
+    {
+        $this->settings->logger->info("Search cars");
+        $carModel = new Car($this->settings);
+        $query = $args['query'];
+        $todos = $carModel->searchCar($query);
         return $response->withJson($todos);
     }
-
-    // Delete a car
-    function removeCar($request, $response, $args) {
-
-        $sth = $this->settings->db->prepare("DELETE FROM coches WHERE id=:id");
-        $sth->bindParam("id", $args['id']);
-        $sth->execute();
-        $sth = $this->settings->db->prepare("SELECT * FROM coches");
-        $sth->execute();
-        $todos = $sth->fetchAll();
+    /**
+     * Remove car
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args
+     * @return Json $input
+     */
+    function removeCar($request, $response, $args)
+    {
+        $this->settings->logger->info("Delete car");
+        $carModel = new Car($this->settings);
+        $id = $args['id'];
+        $todos = $carModel->removeCar($id);
         return $response->withJson($todos);
-   }
-
-   // Update todo with given id
-    function updatedCar($request, $response, $args) {
+    }
+    /**
+     * Update car
+     * @param Request $request
+     * @param Response $response
+     * @param Array $args 
+     * @return Json $input
+     */
+    function updatedCar($request, $response, $args)
+    {
+        $this->settings->logger->info("Updated car");
+        $id = $args['id'];
         $input = $request->getParsedBody();
-        $sql = "UPDATE coches SET modelo=:modelo, fabricante=:fabricante, epoca=:epoca WHERE id=:id";
-        $sth = $this->settings->db->prepare($sql);
-        $sth->bindParam("id", $args['id']);
-        $sth->bindParam("fabricante", $input['fabricante']);
-        $sth->bindParam("modelo", $input['modelo']);
-        $sth->bindParam("epoca", $input['epoca']);
-        $sth->execute();
-        $input['id'] = $args['id'];
+        $carModel = new Car($this->settings);
+        $input = $carModel->updatedCar($id, $input);
         return $response->withJson($input);
     }
 }
