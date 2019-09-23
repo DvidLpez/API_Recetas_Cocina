@@ -98,6 +98,6 @@ class CarsController
         $input = $request->getParsedBody();
         $carModel = new Car($this->settings);
         $input = $carModel->updatedCar($id, $input);
-        return $response->withJson($input);
+        return $response->withJson($input);        
     }
 }

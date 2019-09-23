@@ -7,13 +7,17 @@
 //     return $this->renderer->render($response, 'index.phtml', $args);
 // });
 
-$app->group('/api', function() use ($app) 
-{
+$app->group('/api', function() use ($app) {
     /**
-     * USER ROUTES
+     * USER ACCOUNTS ROUTES
      */
-    $app->post('/login', 'AuthController:getToken');
-    $app->post('/users', 'AuthController:newUser');   
+    $app->post('/register', 'AuthController:registerUser');
+    $app->post('/login', 'AuthController:loginUser');
+    /**
+     * PROFILE ROUTE
+     */
+    $app->get('/v1/profile', 'AuthController:getUser');
+
     /**
      * CARS ROUTES
      */

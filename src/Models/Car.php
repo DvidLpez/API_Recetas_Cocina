@@ -103,15 +103,22 @@ class Car
      * @return Array $todos
      */
     function updatedCar($id, $input)
-    {
-        
+    {   
+
+        $value = $this->infoCar($id);
+
+        if($value == false){
+            return false;
+        }
+
         $sql = "UPDATE coches SET 
                                 modelo=:modelo, 
                                 fabricante=:fabricante, 
                                 epoca=:epoca, 
                                 colores=:colores, 
                                 cilindrada=:cilindrada, 
-                                potencia=:potencia 
+                                potencia=:potencia,
+                                updated_at= true
                             WHERE 
                                 id=:id";
 
@@ -124,8 +131,10 @@ class Car
         $sth->bindParam("cilindrada", $input['cilindrada']);
         $sth->bindParam("potencia", $input['potencia']);
         $sth->execute();
-        $input['id'] = $args['id'];
+        $input['id'] = $id;
         return $input;
+
+        
     }
     /**
     * Crea un string codificado a partir de un array
