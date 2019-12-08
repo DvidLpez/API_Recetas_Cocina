@@ -32,3 +32,6 @@ $container['AuthController'] = function($c) {
     // retrieve the 'view' from the container
    return new App\Controllers\AuthController($c);
 };
+
+
+

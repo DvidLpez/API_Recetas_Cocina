@@ -1,11 +1,12 @@
 <?php
-// $app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-//     // Sample log message
-//     $this->logger->info("Slim-Skeleton '/' route");
 
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
 //     // Render index view
-//     return $this->renderer->render($response, 'index.phtml', $args);
-// });
+return $this->renderer->render($response, 'index.phtml', $args);
+});
 
 $app->group('/api', function() use ($app) {
     /**
@@ -17,6 +18,8 @@ $app->group('/api', function() use ($app) {
      * PROFILE ROUTE
      */
     $app->get('/v1/profile', 'AuthController:getUser');
+    $app->put('/v1/profile', 'AuthController:updateProfile');
+    $app->delete('/v1/profile', 'AuthController:deleteProfile');
 
     /**
      * CARS ROUTES
