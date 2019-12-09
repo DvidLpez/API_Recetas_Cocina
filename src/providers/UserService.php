@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 class UserService {
 
 
@@ -29,7 +28,6 @@ class UserService {
     }
 
     public function token ($con, $input) {
-
         $sql = "SELECT * FROM users WHERE email= :email";
         $sth = $con->prepare($sql);
         $sth->bindParam("email", $input['email']);
@@ -38,12 +36,12 @@ class UserService {
     }
 
     public function userExists ($con, $email) {  
-            $sql = "SELECT * FROM users WHERE email= :email";
-            $sth = $con->prepare($sql);
-            $sth->bindParam("email", $email);
-            $sth->execute();
-            $user = $sth->fetchObject();
-            return $user;     
+        $sql = "SELECT * FROM users WHERE email= :email";
+        $sth = $con->prepare($sql);
+        $sth->bindParam("email", $email);
+        $sth->execute();
+        $user = $sth->fetchObject();
+        return $user;     
     }
 
     public function getUserProfile($con, $email) {

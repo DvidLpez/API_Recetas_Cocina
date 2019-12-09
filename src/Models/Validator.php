@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Models;
 
 use Respect\Validation\Validator as v;
 
@@ -14,17 +14,13 @@ class Validator{
       $emailVal = v::email();
       return $emailVal->validate($email);
    }
+   public function phoneVal( $phone ) {
+      $phoneVal = v::regex('/^[0-9]{9,15}$/');
+      return $phoneVal->validate($phone);
+   }
    public function postalCodeVal( $country, $cp ) {
       $cpVal = v::postalCode($country);
       return $cpVal->validate($cp);
-   }
-   public function phoneVal( $phone ) {
-      $phoneVal = v::regex('/^[0-9]{9,9}$/');
-      return $phoneVal->validate($phone);
-   }
-   public function countryVal($country) {
-      $countryVal = v::alpha()->length(2, 3);
-      return $countryVal->validate($country); 
    }
    public function addressVal($address) {
       $addressVal = v::alnum();
