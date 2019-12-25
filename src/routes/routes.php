@@ -20,7 +20,6 @@ $app->group('/api', function() use ($app) {
     $app->get('/v1/profile', 'AuthController:getUser');
     $app->put('/v1/profile', 'AuthController:updateProfile');
     $app->delete('/v1/profile', 'AuthController:deleteProfile');
-
     /**
      * CARS ROUTES
      */
