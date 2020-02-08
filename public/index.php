@@ -24,10 +24,10 @@ require __DIR__ . '/../src/core/dependencies.php';
 require __DIR__ . '/../src/core/cors.php';
 
 // Register middleware
-require __DIR__ . '/../src/middleware/middleware.php';
+require __DIR__ . '/../src/middleware/index.php';
 
 // Register routes
-require __DIR__ . '/../src/routes/routes.php';
+require __DIR__ . '/../src/routes/index.php';
 
 // Run app
 $app->run();

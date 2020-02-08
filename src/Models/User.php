@@ -25,12 +25,21 @@ class User{
         return $input;    
     }
     /**
-     * Evalue username and password and return token - login
+     * Evalue username and password and return token with expiration - login 
      */
     public function getToken( $input ) {        
         $user = UserService::token($this->db, $input);
+        $token_create = date(time());
+        $token_expires = strtotime('+1 hour', $token_create);
+
         return JWT::encode(
-            ['first_name' => $user->first_name, 'last_name' => $user->last_name,'email' => $user->email],
+            [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'iat' => (string) $token_create,
+                'exp' => (string) $token_expires
+            ],
             $this->secret,
             $this->algorithm
         );

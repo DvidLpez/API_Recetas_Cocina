@@ -12,8 +12,7 @@ class AuthController {
     public function __construct($c) {
         $this->settings = $c;
         $this->logger = $c['logger'];
-        $this->logger->info('Get User: '. $user_loged['email'] );
-        $this->logger->info('login user' );
+        $this->logger->info('User controller: '. $user_loged['email'] );
     }
     /**
      * Description: Check format params in register user

@@ -17,7 +17,7 @@ $container['logger'] = function ($c) {
 // DataBase PDO conection
 $container['db'] = function ($c) {
     $db = $c->get('settings')['db'];
-    $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'], $db['user'], $db['pass']);
+    $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'].';charset=utf8;', $db['user'], $db['pass']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
@@ -31,6 +31,16 @@ $container['CarsController'] = function($c) {
 $container['AuthController'] = function($c) {
     // retrieve the 'view' from the container
    return new App\Controllers\AuthController($c);
+};
+//Category Controller
+$container['CategoryController'] = function($c) {
+    // retrieve the 'view' from the container
+   return new App\Controllers\CategoryController($c);
+};
+//Recipe Controller
+$container['RecipeController'] = function($c) {
+    // retrieve the 'view' from the container
+   return new App\Controllers\RecipeController($c);
 };
 
 

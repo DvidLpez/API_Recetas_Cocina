@@ -1,6 +1,4 @@
 <?php
-// Application middleware
-// $app->add(new \Slim\Csrf\Guard);
 
 // Middleware autenticación por token JWT
 $app->add(new \Tuupola\Middleware\JwtAuthentication([
