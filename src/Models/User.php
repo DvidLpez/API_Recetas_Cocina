@@ -10,7 +10,8 @@ class User{
     private $secret;
     private $algorithm;
 
-    public function __construct($c) {    
+    public function __construct($c) 
+    {    
         $this->db = $c->db;
         $this->secret =  $c->get('settings')['jwt']['secret'];
         $this->algorithm = $c->get('settings')['jwt']['algorithm'];
@@ -18,7 +19,8 @@ class User{
     /**
      * Add new user if not exist - add account
      */
-    public function createUser( $pass_crypt, $input ){
+    public function createUser( $pass_crypt, $input )
+    {
         UserService::addInProfiles($this->db, $input);
         UserService::addInUsers($this->db, $pass_crypt, $input);
         $input['id'] = $this->db->lastInsertId();      
@@ -27,7 +29,8 @@ class User{
     /**
      * Evalue username and password and return token with expiration - login 
      */
-    public function getToken( $input ) {        
+    public function getToken( $input ) 
+    {        
         $user = UserService::token($this->db, $input);
         $token_create = date(time());
         $token_expires = strtotime('+1 day', $token_create);
@@ -47,19 +50,22 @@ class User{
     /**
      * Evalue if exist user
      */
-    public function userExists($email) {
+    public function userExists($email) 
+    {
         return UserService::userExists($this->db, $email);       
     }
     /**
      * get user profile
      */
-    public function getUserProfile( $email ) {
+    public function getUserProfile( $email ) 
+    {
         return UserService::getUserProfile($this->db, $email);
     }
     /**
      * update user profile
      */
-    public function updateUserProfile( $email, $params ) {
+    public function updateUserProfile( $email, $params ) 
+    {
         UserService::updateInProfile($this->db, $email, $params);
         UserService::updateInUsers($this->db, $email, $params);
         $params['email'] = $email;
@@ -69,8 +75,16 @@ class User{
     /**
      * delete user profile
      */
-    public function deleteUserProfile( $email ) {
+    public function deleteUserProfile( $email ) 
+    {
         UserService::deleteInProfile($this->db, $email);
         UserService::deleteInUsers($this->db, $email);
+    }
+    /**
+     * Set image profile
+     */
+    public function setImageProfile($filename, $email) 
+    {
+        UserService::setImageProfile($this->db, $filename, $email);
     }
 }

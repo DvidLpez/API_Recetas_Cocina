@@ -42,14 +42,15 @@ class CategoryService {
     /**
      *  Select category in Table categories order popularity
      */
-    public function getCategories($con) {
-      $sql = "SELECT * FROM categories ORDER BY popularity";
-      $sth = $con->prepare($sql);
-      $sth->execute();
-      $todos = $sth->fetchAll();
-      return $todos;
-   }
-   /**
+    public function getCategories($con) 
+    {
+        $sql = "SELECT * FROM categories ORDER BY popularity";
+        $sth = $con->prepare($sql);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $todos;
+    }
+/**
      *  Update category in Table categories
      */
     public function updateCategory($con, $id, $input) 

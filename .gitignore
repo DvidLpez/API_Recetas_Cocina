@@ -2,3 +2,4 @@
 /logs/*
 /src/config/settings.php
 /public/images/*
+.DS_Store

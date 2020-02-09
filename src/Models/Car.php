@@ -132,9 +132,7 @@ class Car
         $sth->bindParam("potencia", $input['potencia']);
         $sth->execute();
         $input['id'] = $id;
-        return $input;
-
-        
+        return $input;    
     }
     /**
     * Crea un string codificado a partir de un array

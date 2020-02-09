@@ -1,4 +1,5 @@
 <?php
 // Application middleware
 // $app->add(new \Slim\Csrf\Guard);
-include 'jwt/jwt_middleware.php';
+include 'cors_middleware.php';
+include 'jwt_middleware.php';

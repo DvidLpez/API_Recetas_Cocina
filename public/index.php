@@ -20,10 +20,7 @@ $app = new \Slim\App($settings);
 // Set up dependencies
 require __DIR__ . '/../src/core/dependencies.php';
 
-// Set up cors
-require __DIR__ . '/../src/core/cors.php';
-
-// Register middleware
+// Register middlewares cors and jwt
 require __DIR__ . '/../src/middleware/index.php';
 
 // Register routes

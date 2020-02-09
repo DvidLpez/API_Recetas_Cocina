@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 class UserService {
-
     /**
      *  Add new profile in BBDD - profiles
      */
@@ -117,5 +116,14 @@ class UserService {
         $sth->bindParam("email", $email);
         $sth->execute();
     }
-    
+    /**
+     * Set image in BBDD
+     */
+    public function setImageProfile($con, $filename, $email) {
+        $sql = "UPDATE profiles SET profile_image=:profile_image WHERE email=:email";
+        $sth = $con->prepare($sql);
+        $sth->bindParam("profile_image", $filename);
+        $sth->bindParam("email", $email);
+        $sth->execute();
+    }  
 }

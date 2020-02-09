@@ -16,6 +16,11 @@ class AuthController {
         $this->logger->info('User controller: '. $user_loged['email'] );
     }
     /**
+     * ===============================
+     *          PUBLIC METHODS
+     * ===============================
+     */
+    /**
      * Description: Add new user
      */
     public function registerUser($request, $response){
@@ -112,7 +117,6 @@ class AuthController {
      * Upload profile image
      */
     public function UploadImageProfile( Request $request, Response $response ) {
-
         try {
             $uploadedFiles = $request->getUploadedFiles();
             if(!UploadFilesService::checkImage($uploadedFiles['profile']) ) {
@@ -125,7 +129,7 @@ class AuthController {
             $uploadedFile = $uploadedFiles['profile'];
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                 $filename = UploadFilesService::moveUploadedFile($directory, $uploadedFile);
-
+                $user->setImageProfile($filename, $user_loged['email']);
                 $path_image = "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/images/profiles/". $user_profile->id."/".$filename;
                 return $response->withJson(['status' => true, 'file_uploaded' => ['name_image' => $filename, "path" => $path_image]], 200);
             }
@@ -133,37 +137,11 @@ class AuthController {
             return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
         }  
     }
-
-    private function createPathImagesUser($id){
-        $path = __DIR__ . '/../../public/images/profiles/'. $id .'/';
-        if(!is_dir($path)){
-            mkdir($path, 0777, true);
-            chmod($path, 0777);
-        }
-        return $path;
-    }
-
-    private function checkImage($files) {
-
-        $type =  $files['profile']->getClientMediaType();
-        $size =  $files['profile']->getSize();
-        if(($type == 'image/png' || $type == 'image/jpg') && $size < '10000') { // size en bytes 1000 +- 1kb
-            return true;
-        }
-        return false; 
-    }
-
-    private function moveUploadedFile($directory, $uploadedFile)
-    {
-        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-        $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
-        $filename = sprintf('%s.%0.8s', $basename, $extension);
-
-        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
-
-        return $filename;
-    }
-
+    /**
+     * ===============================
+     *          PRIVATE METHODS
+     * =============================== 
+     */
     /**
      * Description: Check format params in register user
      */
