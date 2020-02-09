@@ -30,7 +30,7 @@ class User{
     public function getToken( $input ) {        
         $user = UserService::token($this->db, $input);
         $token_create = date(time());
-        $token_expires = strtotime('+1 hour', $token_create);
+        $token_expires = strtotime('+1 day', $token_create);
 
         return JWT::encode(
             [

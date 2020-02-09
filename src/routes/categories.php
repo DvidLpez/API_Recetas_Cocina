@@ -4,15 +4,14 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 $app->group('/api/v1', function() use ($app) {
-    // Create category
+    // Create category - OK
     $app->post('/category', 'CategoryController:registerCategory');
-    // Select category
-    $app->get('/category/{id}', 'CategoryController:getCategories');
-    // Update category
+    // Select category - OK
+    $app->get('/category/{id}', 'CategoryController:getCategory');
+    // Update category - OK
     $app->put('/category/{id}', 'CategoryController:updateCategory');
-    // Remove category
+    // Remove category - OK
     $app->delete('/category/{id}', 'CategoryController:deleteCategory');
-    // List categories
+    // List categories - OK
     $app->get('/categories', 'CategoryController:listCategories');
-    
 });

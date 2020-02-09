@@ -4,7 +4,9 @@ namespace App\Providers;
 
 class UserService {
 
-
+    /**
+     *  Add new profile in BBDD - profiles
+     */
    public function addInProfiles($con, $input)
     {
         $sql = "INSERT INTO profiles (first_name, last_name, email) VALUES (:first_name, :last_name, :email)";
@@ -15,7 +17,9 @@ class UserService {
         $sth->execute();
         
     }
-
+    /**
+     *  Add new profile in BBDD - users
+     */
     public function addInUsers ($con, $pass_crypt, $input)
     {
         $sql = "INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)";
@@ -26,7 +30,9 @@ class UserService {
         $sth->bindParam("password", $pass_crypt);
         $sth->execute();
     }
-
+    /**
+     *  Get user from BBDD - email
+     */
     public function token ($con, $input) {
         $sql = "SELECT * FROM users WHERE email= :email";
         $sth = $con->prepare($sql);
@@ -34,7 +40,9 @@ class UserService {
         $sth->execute();
         return $sth->fetchObject(); 
     }
-
+    /**
+     *  Check if user exist in BBDD - email
+     */
     public function userExists ($con, $email) {  
         $sql = "SELECT * FROM users WHERE email= :email";
         $sth = $con->prepare($sql);
@@ -43,7 +51,9 @@ class UserService {
         $user = $sth->fetchObject();
         return $user;     
     }
-
+    /**
+     *  Select user by email from BBDD
+     */
     public function getUserProfile($con, $email) {
         $sql = "SELECT * FROM profiles WHERE email= :email";
         $sth = $con->prepare($sql);
@@ -51,7 +61,9 @@ class UserService {
         $sth->execute();
         return $sth->fetchObject();
     }
-
+    /**
+     *  Update profile in BBDD - profiles
+     */
     public function updateInProfile($con, $email, $input) {
         $sql = "UPDATE profiles 
         SET 
@@ -71,7 +83,9 @@ class UserService {
 
         $sth->execute();
     }
-
+    /**
+     *  Update profile in BBDD - users
+     */
     public function updateInUsers($con, $email, $input) {
         $sql = "UPDATE users 
         SET 
@@ -85,13 +99,18 @@ class UserService {
         $sth->bindParam("email", $email);
         $sth->execute();
     }
-
+    /**
+     *  Delete profile from BBDD - profiles
+     */
     public function deleteInProfile($con, $email) {
         $sql = "DELETE FROM profiles WHERE email=:email";
         $sth = $con->prepare($sql);
         $sth->bindParam("email", $email);
         $sth->execute();
     }
+    /**
+     *  Delete profile from BBDD - users
+     */
     public function deleteInUsers($con, $email) {
         $sql = "DELETE FROM users WHERE email=:email";
         $sth = $con->prepare($sql);

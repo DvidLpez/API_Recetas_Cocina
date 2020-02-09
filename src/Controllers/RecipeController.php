@@ -52,4 +52,12 @@ class RecipeController
             return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
         }
     }
+
+    // // handle single input with multiple file uploads
+        // foreach ($uploadedFiles['example3'] as $uploadedFile) {
+        //     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+        //         $filename = moveUploadedFile($directory, $uploadedFile);
+        //         $response->write('uploaded ' . $filename . '<br/>');
+        //     }
+        // }
 }

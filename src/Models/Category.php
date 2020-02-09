@@ -25,11 +25,16 @@ class Category{
         return CategoryService::categoryExists($this->db, $category_name);       
     }
 
-    /**
-     * Add new user if not exist - add account
-     */
+    public function getCategory( $id ){
+        return CategoryService::getCategory($this->db, $id);   
+    }
+
     public function getCategories() {
         return CategoryService::getCategories($this->db);       
+    }
+    
+    public function updateCategory( $id, $params ) {
+        return CategoryService::updateCategory($this->db, $id, $params);     
     }
 
     function removeCategory($id)
