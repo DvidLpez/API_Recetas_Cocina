@@ -22,11 +22,6 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 };
-//Home Controller
-$container['CarsController'] = function($c) {
-     // retrieve the 'view' from the container
-    return new App\Controllers\CarsController($c);
-};
 //User Controller
 $container['AuthController'] = function($c) {
     // retrieve the 'view' from the container
@@ -42,6 +37,3 @@ $container['RecipeController'] = function($c) {
     // retrieve the 'view' from the container
    return new App\Controllers\RecipeController($c);
 };
-
-
-

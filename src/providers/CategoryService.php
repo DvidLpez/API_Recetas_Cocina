@@ -13,8 +13,7 @@ class CategoryService {
         $sth->bindParam("name", $input['name']);
         $sth->bindParam("description", $input['description']); 
         $sth->bindParam("popularity", $input['popularity']);
-        $sth->execute();
-        
+        $sth->execute();   
     }
     /**
      *  Check if exist category in Table categories
@@ -50,7 +49,7 @@ class CategoryService {
         $todos = $sth->fetchAll();
         return $todos;
     }
-/**
+    /**
      *  Update category in Table categories
      */
     public function updateCategory($con, $id, $input) 

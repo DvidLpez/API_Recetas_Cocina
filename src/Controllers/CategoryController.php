@@ -18,6 +18,7 @@ class CategoryController
      *  Register a new cateogry
      */
     public function registerCategory(Request $request, Response $response){
+        $this->settings->logger->info("List Category");
         try {
             $params = $request->getParsedBody();
             $category = new Category($this->settings);  
@@ -61,6 +62,7 @@ class CategoryController
      *  List cateogries
      */
     public function listCategories ( Request $request, Response $response, array $arg) {
+        $this->settings->logger->info("List Category");
         try {
             $categoryModel = new Category($this->settings);
             $categories = $categoryModel->getCategories();  
