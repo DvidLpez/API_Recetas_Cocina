@@ -16,6 +16,6 @@
       $app->get('/recipes', 'RecipeController:listRecipes');
       // List recipes by category with pagination - OK
       $app->get('/recipes/category/{id}', 'RecipeController:listRecipesByCategory');
-      // Search recipes with pagination - 
-      $app->get('/recipes/search/{query}', 'RecipeController:searchRecipes');
+      // Search recipes with pagination - OK
+      $app->get('/recipes/search', 'RecipeController:searchRecipes');
    });

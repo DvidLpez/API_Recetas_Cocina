@@ -6,7 +6,7 @@ use Respect\Validation\Validator as v;
 class Validator{
    public function namesVal( $name ) 
    {
-      $namesVal = v::alpha('ÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑáàäéèëíìïóòöúùüñ')->length(3, 20);
+      $namesVal = v::alpha('ÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑáàäéèëíìïóòöúùüñ')->length(3, 80);
       return $namesVal->validate($name);    
    }
    public function emailVal( $email ) 

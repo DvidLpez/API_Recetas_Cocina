@@ -105,5 +105,32 @@ class RecipeService {
         $sth->execute();
         $todos = $sth->fetchAll();
         return $todos;
-    }  
+    } 
+    
+    public function searchRecipes($con, $query, $page, $totalPostPage) 
+    {
+        $searchTerms = explode(' ', $query);
+        $search = array();
+        foreach ($searchTerms as $value) {      
+            if( strlen($value) > 2 )  array_push($search, $value);
+        }
+
+        $searchTermBits = array();
+        foreach ($search as $term) {
+            $term = trim($term);
+            if (!empty($term)) {
+                $searchTermBits[] = "name LIKE '%$term%'";
+            }
+        }
+        
+        $sql = "SELECT * FROM recipes WHERE ".implode(' OR ', $searchTermBits)." LIMIT $totalPostPage OFFSET $page";
+        $sth = $con->prepare($sql);
+        $query = '%'.$query.'%';
+        $sth->bindParam("query", $query);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+
+        print_r($todos); die();
+        return $todos;
+    }
 }

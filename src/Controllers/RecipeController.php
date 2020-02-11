@@ -105,6 +105,20 @@ public function __construct($c) {
         }
     }
 
+    public function searchRecipes(Request $request, Response $response, array $args) {
+        try {
+            
+            $query = $request->getParsedBody()['query'];
+            $page = $request->getQueryParam('page');
+            $totalPostPage = 20;
+            $totalItems = $page * $totalPostPage;
+            $recipeModel = new Recipe($this->settings);
+            $recipes = $recipeModel->searchRecipes($query, $totalItems, $totalPostPage);  
+            return $response->withJson(['status' => true, 'recipes' =>  $recipes], 200);
+        } catch (\Exception $e) {
+            return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
+        }
+    }
     // // handle single input with multiple file uploads
         // foreach ($uploadedFiles['example3'] as $uploadedFile) {
         //     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {

@@ -46,9 +46,12 @@ class Recipe{
     {
         return RecipeService::updateRecipe($this->db, $id, $params);     
     }
-    function removeRecipe($id)
+    public function removeRecipe($id)
     {
         $list = RecipeService::removeRecipe($this->db, $id);
         return $list; 
+    }
+    public function searchRecipes($query, $page, $totalPostPage) {
+        return RecipeService::searchRecipes($this->db, $query, $page, $totalPostPage);
     }
 }
