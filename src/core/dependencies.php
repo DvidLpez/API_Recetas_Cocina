@@ -1,4 +1,5 @@
 <?php
+
 // DIC configuration
 $container = $app->getContainer();
 // view renderer
@@ -22,18 +23,53 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
 };
+// DataBase PDO conection
+$container['jwt'] = function ($c) {
+    return $c->get('settings')['jwt'];
+};
+
+// $container['eloquent'] = function ($container) {
+//     $capsule = new \Illuminate\Database\Capsule\Manager;
+//     $capsule->addConnection($container['settings']['eloquent']);
+//     // $capsule->addConnection($container['settings']['eloquent']);
+//     $capsule->setAsGlobal();
+//     $capsule->bootEloquent();
+//     return $capsule;
+// };
+
+
 //User Controller
-$container['AuthController'] = function($c) {
-    // retrieve the 'view' from the container
-   return new App\Controllers\AuthController($c);
+$container['AuthController'] = function($container) {
+    // retrieve the 'logger' from the container
+    $logger = $container['logger'];
+    // retrieve the 'database' from the container
+    $database = $container['db'];
+    // retrieve the 'JWT' from the container
+    $jwt = $container['jwt'];
+   return new App\Controllers\AuthController($logger, $database, $jwt);
 };
 //Category Controller
-$container['CategoryController'] = function($c) {
-    // retrieve the 'view' from the container
-   return new App\Controllers\CategoryController($c);
+$container['CategoryController'] = function($container) {
+    // retrieve the 'logger' from the container
+    $logger = $container['logger'];
+    // retrieve the 'database' from the container
+    $database = $container['db'];
+    // $db = $c->get('eloquent');
+   return new App\Controllers\CategoryController($logger, $database);
 };
 //Recipe Controller
-$container['RecipeController'] = function($c) {
-    // retrieve the 'view' from the container
-   return new App\Controllers\RecipeController($c);
+$container['RecipeController'] = function($container) {
+    // retrieve the 'logger' from the container
+    $logger = $container['logger'];
+    // retrieve the 'database' from the container
+    $database = $container['db'];
+   return new App\Controllers\RecipeController($logger, $database);
+};
+//Comment Controller
+$container['CommentController'] = function($container) {
+    // retrieve the 'logger' from the container
+    $logger = $container['logger'];
+    // retrieve the 'database' from the container
+    $database = $container['db'];
+   return new App\Controllers\CommentController($logger, $database);
 };

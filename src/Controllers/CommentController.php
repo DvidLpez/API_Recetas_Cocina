@@ -10,10 +10,10 @@ class CommentController
 {
    private $settings;
 
-    public function __construct($c) {
-        $this->settings = $c;
-        $this->logger = $c['logger'];
-        $this->logger->info('Comment controller: '. $user_loged['email'] );
+    public function __construct($logger, $database) {
+        $this->database = $database;
+        $this->logger = $logger;
+        $this->logger->info('Comment controller' );
     }
 
     public function registerComment(Request $request, Response $response, array $args) {

@@ -3,15 +3,15 @@
 namespace App\Controllers;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Models\Recipe;
+use App\Models\RecipeModel as Recipe;
 
 class RecipeController
 {
-private $settings;
+private $database;
 
-public function __construct($c) {
-    $this->settings = $c;
-    $this->logger = $c['logger'];
+public function __construct($logger, $database) {
+    $this->database = $database;
+    $this->logger = $logger;
     $this->logger->info('Recipe controller: '. $user_loged['email'] );
 }
 
@@ -21,7 +21,7 @@ public function __construct($c) {
     public function registerRecipe(Request $request, Response $response){
         try {
             $params = $request->getParsedBody();
-            $recipe = new Recipe($this->settings);  
+            $recipe = new Recipe($this->database);  
             if ($recipe->recipeExists($params['name'])) {
                 throw new \Exception('La receta ya existe', 400);
             }
@@ -35,7 +35,7 @@ public function __construct($c) {
     public function getRecipe( Request $request, Response $response, array $args) {
         try {
             $id = $args['id'];
-            $recipeModel = new Recipe($this->settings);
+            $recipeModel = new Recipe($this->database);
             $recipe = $recipeModel->getRecipe($id);  
             return $response->withJson(['status' => true, 'recipes' =>  $recipe], 200);
         } catch (\Exception $e) {
@@ -49,7 +49,7 @@ public function __construct($c) {
         try {
             $id = $args['id'];
             $params = $request->getParsedBody();  
-            $recipe = new Recipe($this->settings);
+            $recipe = new Recipe($this->database);
             $recipe->updateRecipe($id, $params);
             return $response->withJson(['status' => true, 'recipe_updated' => $params], 200);
         } catch (\Exception $e) {
@@ -64,7 +64,7 @@ public function __construct($c) {
             $page = $request->getQueryParam('page');
             $totalPostPage = 10;
             $totalItems = $page * $totalPostPage;
-            $recipeModel = new Recipe($this->settings);
+            $recipeModel = new Recipe($this->database);
             $recipes = $recipeModel->getlistRecipes($totalItems, $totalPostPage);  
             return $response->withJson(['status' => true, 'recipes' =>  $recipes], 200);
 
@@ -81,7 +81,7 @@ public function __construct($c) {
             $category = $args['id'];
             $totalPostPage = 10;
             $totalItems = $page * $totalPostPage;
-            $recipeModel = new Recipe($this->settings);
+            $recipeModel = new Recipe($this->database);
             $recipes = $recipeModel->getlistRecipesByCategory($category, $totalItems, $totalPostPage);  
             return $response->withJson(['status' => true, 'recipes' =>  $recipes], 200);
 
@@ -96,7 +96,7 @@ public function __construct($c) {
         try {
             $id = $args['id'];
 
-            $recipeModel = new Recipe($this->settings);
+            $recipeModel = new Recipe($this->database);
             $recipe = $recipeModel->removeRecipe($id);  
             return $response->withJson(['status' => true, 'recipes' =>  $recipe], 200);
 
@@ -112,7 +112,7 @@ public function __construct($c) {
             $page = $request->getQueryParam('page');
             $totalPostPage = 20;
             $totalItems = $page * $totalPostPage;
-            $recipeModel = new Recipe($this->settings);
+            $recipeModel = new Recipe($this->database);
             $recipes = $recipeModel->searchRecipes($query, $totalItems, $totalPostPage);  
             return $response->withJson(['status' => true, 'recipes' =>  $recipes], 200);
         } catch (\Exception $e) {

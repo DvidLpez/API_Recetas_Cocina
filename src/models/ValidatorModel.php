@@ -3,7 +3,7 @@
 namespace App\Models;
 use Respect\Validation\Validator as v;
 
-class Validator{
+class ValidatorModel{
    public function namesVal( $name ) 
    {
       $namesVal = v::alpha('ÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑáàäéèëíìïóòöúùüñ')->length(3, 80);

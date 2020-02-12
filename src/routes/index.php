@@ -5,7 +5,7 @@
 	include 'users.php';
 	include 'categories.php';
 	include 'recipes.php';
-	include 'comments.php';
+	// include 'comments.php'; No implemented yet
 
 	$app->group('/api', function() use ($app) {
 		$app->get('/[{name}]', function (Request $request, Response $response, array $args) { 
