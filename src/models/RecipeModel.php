@@ -7,8 +7,8 @@ class RecipeModel{
 
     private $db;
 
-    public function __construct($c) {    
-        $this->db = $c->db;
+    public function __construct($database) {    
+        $this->db = $database;
     }
     
     public function createRecipe( $input ) {
@@ -73,13 +73,21 @@ class RecipeModel{
          $todos = $sth->fetchAll();
          return $todos;  
     }
+    /**
+     * Return list recipes from user 
+     */
+    public function getlistRecipesByUser($user_id, $page, $totalPostPage) {  
+        $sql = "SELECT recipes.*, categories.name as cat_name FROM recipes INNER JOIN categories ON recipes.category=categories.id WHERE user=:user LIMIT $totalPostPage OFFSET $page";
+         $sth = $this->db->prepare($sql);
+         $sth->bindParam("user", $user_id);
+         $sth->execute();
+         $todos = $sth->fetchAll();
+         return $todos;  
+    }
 
-    public function updateRecipe( $id, $params ) {
+    public function updateRecipe( $id, $input ) {
         $sql = "UPDATE recipes SET 
-        name=:name, description=:description, category=:category, 
-        ingredients=:ingredients, price=:price, preparate=:preparate, 
-        comensals=:comensals, time=:time, alergens=:alergens, 
-        user=:user, state=:state, validate=:validate
+        name=:name, description=:description, category=:category, ingredients=:ingredients, price=:price, preparate=:preparate, comensals=:comensals, time=:time, alergens=:alergens, user=:user, state=:state, validate=:validate
         WHERE 
         id=:id";
 
@@ -132,5 +140,16 @@ class RecipeModel{
         $sth->execute();
         $todos = $sth->fetchAll();
         return $todos;
+    }
+
+    /**
+     * Set image recipe
+     */
+    public function setImageRecipe($imageurl, $id_recipe) {
+        $sql = "UPDATE recipes SET image_recipe=:image_recipe WHERE id=:id_recipe";
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("image_recipe", $imageurl);
+        $sth->bindParam("id_recipe", $id_recipe);
+        $inserted = $sth->execute();
     }
 }

@@ -4,11 +4,23 @@ namespace App\Providers;
 
 class UploadFilesService {
     /**
-     * Create path to send image
+     * Create path to send image user
      */
     public function createPathImagesUser($id)
     {
         $path = __DIR__ . '/../../public/images/profiles/'. $id .'/';
+        if(!is_dir($path)){
+            mkdir($path, 0777, true);
+            chmod($path, 0777);
+        }
+        return $path;
+    }
+    /**
+     * Create path to send image recipes
+     */
+    public function createPathRecipeImagesUser($id, $id_recipe)
+    {
+        $path = __DIR__ . '/../../public/images/profiles/'. $id .'/recipes/' . $id_recipe . '/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
             chmod($path, 0777);
@@ -26,6 +38,24 @@ class UploadFilesService {
             return true;
         }
         return false; 
+    }
+    /**
+     * Check if file sended is an image
+     */
+    public function checkImages($files) 
+    { 
+        $i = count($files);
+        $counter = 0;
+        foreach ($files as $file) {
+            $valid = UploadFilesService::checkImage($file);
+            if($valid) {
+                $counter++;
+            }   
+        }
+        if($counter !== $i) {
+            return false;
+        }
+        return true;        
     }
     /**
      * Move file to directory

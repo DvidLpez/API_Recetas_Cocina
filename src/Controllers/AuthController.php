@@ -74,7 +74,7 @@ class AuthController {
     public function getUser ( Request $request, Response $response, array $arg) {
         try {
             $user_loged = $request->getAttribute("decoded_token_data");
-            $user = User($this->database);     
+            $user = new User($this->database);     
             if(!$user->userExists($user_loged['email'])) {
                 throw new \Exception('Token invalido', 400);
             }     
@@ -96,7 +96,7 @@ class AuthController {
                 throw new \Exception('Los datos no son correctos', 400);
             }
             $user = new User($this->database);
-            $token = $user->updateUserProfile($user_loged['email'], $params);
+            $token = $user->updateUserProfile($user_loged['email'], $params, $this->jwt);
             return $response->withJson(['status' => true, 'token' => $token], 200);
 
         } catch (\Exception $e) {
@@ -133,8 +133,8 @@ class AuthController {
             $uploadedFile = $uploadedFiles['profile'];
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                 $filename = UploadFile::moveUploadedFile($directory, $uploadedFile);
-                $user->setImageProfile($filename, $user_loged['email']);
                 $path_image = "http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/images/profiles/". $user_profile->id."/".$filename;
+                $user->setImageProfile($path_image, $user_loged['email']);
                 return $response->withJson(['status' => true, 'file_uploaded' => ['name_image' => $filename, "path" => $path_image]], 200);
             }
         } catch (\Exception $e) {
@@ -163,7 +163,8 @@ class AuthController {
      */
     private function checkProfileParams($params) {
         if( Validator::namesVal($params['first_name']) && 
-            Validator::namesVal($params['last_name']) && 
+            Validator::namesVal($params['last_name']) &&
+            Validator::addressVal($params['nickname']) &&
             Validator::phoneVal($params['phone']) &&  
             Validator::namesVal($params['city']) &&
             Validator::postalCodeVal($params['country'], $params['postal_code'])

@@ -65,11 +65,11 @@ class UserModel{
     /**
      * update user profile
      */
-    public function updateUserProfile( $email, $params ) {
+    public function updateUserProfile( $email, $params, $jwt) {
         $this->updateInProfile($email, $params);
         $this->updateInUsers($email, $params);
         $params['email'] = $email;
-        return $this->getToken($params); 
+        return $this->getToken($params, $jwt); 
     }
     /**
      * delete user profile
@@ -122,13 +122,14 @@ class UserModel{
     private function updateInProfile($email, $input) {
         $sql = "UPDATE profiles 
         SET 
-        first_name=:first_name, last_name=:last_name, phone=:phone, country=:country, city=:city,postal_code=:postal_code
+        first_name=:first_name, last_name=:last_name, nickname=:nickname, phone=:phone, country=:country, city=:city,postal_code=:postal_code
         WHERE 
         email=:email";
 
         $sth = $this->db->prepare($sql);
         $sth->bindParam("first_name", $input['first_name']);
         $sth->bindParam("last_name", $input['last_name']); 
+        $sth->bindParam("nickname", $input['nickname']); 
         $sth->bindParam("email", $input['email']);
         $sth->bindParam("phone", $input['phone']); 
         $sth->bindParam("country", $input['country']); 

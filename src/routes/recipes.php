@@ -16,6 +16,10 @@
       $app->get('/recipes', 'RecipeController:listRecipes');
       // List recipes by category with pagination - OK
       $app->get('/recipes/category/{id}', 'RecipeController:listRecipesByCategory');
+      // List recipes by user with pagination - OK
+      $app->get('/recipes/user/{id}', 'RecipeController:listRecipesByUser');
       // Search recipes with pagination - OK
       $app->get('/recipes/search', 'RecipeController:searchRecipes');
+      // Upload images recipes
+      $app->post('/recipe/images', 'RecipeController:UploadImagesRecipe');
    });
