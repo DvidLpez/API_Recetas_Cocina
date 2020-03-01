@@ -27,7 +27,7 @@ class AuthController {
     /**
      * Description: Add new user
      */
-    public function registerUser($request, $response){
+    public function registerUser(Request $request, Response $response){
         try {
             $params = $request->getParsedBody();
             if(!$this->checkRegisterParams($params)) {

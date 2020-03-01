@@ -1,6 +1,5 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-
   # Some hosts may require you to use the `RewriteBase` directive.
   # Determine the RewriteBase automatically and set it as environment variable.
   # If you are using Apache aliases to do mass virtual hosting or installed the
@@ -11,17 +10,11 @@
   # the following 2 lines to eliminate the overhead.
   RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
   RewriteRule ^(.*) - [E=BASE:%1]
-  
   # If the above doesn't work you might need to set the `RewriteBase` directive manually, it should be the
   # absolute physical path to the directory that contains this htaccess file.
   # RewriteBase /
-
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
-
   # Encabezados con JWT
   RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
 </IfModule>
-
-
