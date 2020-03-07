@@ -130,10 +130,10 @@ class RecipeModel{
         foreach ($search as $term) {
             $term = trim($term);
             if (!empty($term)) {
-                $searchTermBits[] = "name LIKE '%$term%'";
+                $searchTermBits[] = "recipes.name LIKE '%$term%'";
             }
         } 
-        $sql = "SELECT * FROM recipes WHERE ".implode(' OR ', $searchTermBits)." LIMIT $totalPostPage OFFSET $page";
+        $sql = "SELECT recipes.*, categories.name as cat_name FROM recipes INNER JOIN categories ON recipes.category=categories.id WHERE ".implode(' OR ', $searchTermBits)." LIMIT $totalPostPage OFFSET $page";
         $sth = $this->db->prepare($sql);
         $query = '%'.$query.'%';
         $sth->bindParam("query", $query);

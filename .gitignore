@@ -1,5 +1,5 @@
 /vendor/
 /logs/*
 /src/config/settings.php
-/images/*
+/images/
 .DS_Store

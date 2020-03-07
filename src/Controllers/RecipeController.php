@@ -127,7 +127,7 @@ class RecipeController
    public function searchRecipes(Request $request, Response $response, array $args) {
       try {
          
-         $query = $request->getParsedBody()['query'];
+         $query = trim($request->getQueryParam('query'));
          $page = $request->getQueryParam('page');
          $totalPostPage = 20;
          $totalItems = $page * $totalPostPage;

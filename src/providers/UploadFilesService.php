@@ -8,7 +8,7 @@ class UploadFilesService {
      */
     public function createPathImagesUser($id)
     {
-        $path = __DIR__ . '/../../public/images/profiles/'. $id .'/';
+        $path = __DIR__ . '/../../images/'. $id .'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
             chmod($path, 0777);
@@ -20,7 +20,7 @@ class UploadFilesService {
      */
     public function createPathRecipeImagesUser($id, $id_recipe)
     {
-        $path = __DIR__ . '/../../public/images/profiles/'. $id .'/recipes/' . $id_recipe . '/';
+        $path = __DIR__ . '/../../images/'. $id .'/recipes/' . $id_recipe . '/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
             chmod($path, 0777);
