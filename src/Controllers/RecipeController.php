@@ -109,6 +109,50 @@ class RecipeController
       }
    }
    /**
+    * Get paginate list of favourites user recipes
+    */
+   public function getfavouritesRecipesUser( Request $request, Response $response, array $args) {
+      try {
+         $user_id = $args['id'];
+         $recipeModel = new Recipe($this->database);
+         $recipes = $recipeModel->getfavouritesRecipesUser($user_id);
+         return $response->withJson(['status' => true, 'recipes' => $recipes], 200);
+
+      } catch (\Exception $e) {
+         return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
+      }
+   }
+   /**
+    * Get paginate list of favourites user recipes
+    */
+   public function setfavouritesRecipesUser( Request $request, Response $response, array $args) {
+      try {
+         $user_id = $args['id'];
+         $params = $request->getParsedBody();
+         $recipeModel = new Recipe($this->database);
+         $recipeModel->setfavouritesRecipesUser($user_id, $params['recipe']);
+         return $response->withJson(['status' => true, 'favourite' => $params['recipe']], 200);
+
+      } catch (\Exception $e) {
+         return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
+      }
+   }
+   /**
+    * Get paginate list of favourites user recipes
+    */
+   public function removefavouritesRecipesUser( Request $request, Response $response, array $args) {
+      try {
+         $user_id = $args['id'];
+         $params = $request->getParsedBody();
+         $recipeModel = new Recipe($this->database);
+         $recipe = $recipeModel->removefavouritesRecipesUser($user_id, $params['recipe']);
+         return $response->withJson(['status' => true, 'deleted' => $recipe], 200);
+
+      } catch (\Exception $e) {
+         return $response->withJson(['status' => false, 'message' => $e->getMessage()], $e->getCode() );
+      }
+   }
+   /**
     * Remove Recipe
     */
    public function removeRecipe( Request $request, Response $response, array $args) {

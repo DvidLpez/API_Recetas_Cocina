@@ -22,4 +22,12 @@
       $app->get('/recipes/search', 'RecipeController:searchRecipes');
       // Upload images recipes
       $app->post('/recipe/images', 'RecipeController:UploadImagesRecipe');
+
+      
+      // List Favourites recipes user - OK
+      $app->get('/recipes/favourites/{id}', 'RecipeController:getfavouritesRecipesUser');
+      // New Favourites recipes user - OK
+      $app->post('/recipes/favourites/{id}', 'RecipeController:setfavouritesRecipesUser');
+      // Remove Favourites recipes user - OK
+      $app->delete('/recipes/favourites/{id}', 'RecipeController:removefavouritesRecipesUser');
    });

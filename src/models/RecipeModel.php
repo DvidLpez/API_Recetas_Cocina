@@ -20,12 +20,12 @@ class RecipeModel{
         $sth->bindParam("name", $input['name']);
         $sth->bindParam("description", $input['description']); 
         $sth->bindParam("category", $input['category']);
-        $sth->bindParam("ingredients", $input['ingredients']);
+        $sth->bindParam("ingredients", serialize($input['ingredients']));
         $sth->bindParam("price", $input['price']); 
         $sth->bindParam("preparate", $input['preparate']);
         $sth->bindParam("comensals", $input['comensals']);
         $sth->bindParam("time", $input['time']); 
-        $sth->bindParam("alergens", $input['alergens']);
+        $sth->bindParam("alergens", serialize($input['alergens']));
         $sth->bindParam("user", $input['user']);
         $sth->bindParam("state", $input['state']); 
         $sth->bindParam("validate", $input['validate']);
@@ -40,7 +40,8 @@ class RecipeModel{
         $sth->bindParam("name_recipe", $recipe_name);
         $sth->execute();
         $recipe = $sth->fetchObject();
-        return $recipe;       
+        return $recipe; 
+             
     }
     /**
      * Add new user if not exist - add account
@@ -50,39 +51,81 @@ class RecipeModel{
         $sth = $this->db->prepare($sql);
         $sth->bindParam("id", $id);
         $sth->execute();
-        return $sth->fetchObject();  
+        $recipe = $sth->fetchObject();
+        if($recipe) {
+            $recipe->ingredients = unserialize($recipe->ingredients); 
+            $recipe->alergens = unserialize($recipe->alergens); 
+        } 
+        return $recipe;
     }
     /**
      * Evalue username and password and return token with expiration - login 
      */
     public function getlistRecipes($page, $totalPostPage) {  
         $sql = "SELECT recipes.*, categories.name as cat_name FROM recipes INNER JOIN categories ON recipes.category=categories.id LIMIT $totalPostPage OFFSET $page";
-         $sth = $this->db->prepare($sql);
-         $sth->execute();
-         $todos = $sth->fetchAll();
-         return $todos;       
+        $sth = $this->db->prepare($sql);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $todos;       
     }
     /**
      * Evalue username and password and return token with expiration - login 
      */
     public function getlistRecipesByCategory($category, $page, $totalPostPage) {  
         $sql = "SELECT recipes.*, categories.name as cat_name FROM recipes INNER JOIN categories ON recipes.category=categories.id WHERE category=:category LIMIT $totalPostPage OFFSET $page";
-         $sth = $this->db->prepare($sql);
-         $sth->bindParam("category", $category);
-         $sth->execute();
-         $todos = $sth->fetchAll();
-         return $todos;  
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("category", $category);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $todos;  
     }
     /**
      * Return list recipes from user 
      */
     public function getlistRecipesByUser($user_id, $page, $totalPostPage) {  
         $sql = "SELECT recipes.*, categories.name as cat_name FROM recipes INNER JOIN categories ON recipes.category=categories.id WHERE user=:user LIMIT $totalPostPage OFFSET $page";
-         $sth = $this->db->prepare($sql);
-         $sth->bindParam("user", $user_id);
-         $sth->execute();
-         $todos = $sth->fetchAll();
-         return $todos;  
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("user", $user_id);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $todos;  
+    }
+    /**
+     * Return list recipes from user 
+     */
+    public function getfavouritesRecipesUser($user) {
+        $sql = "SELECT recipe FROM favourites WHERE user=:user";
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("user", $user);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        $recipes = array();
+        foreach ($todos as $key => $value) {
+            array_push( $recipes, $this->getRecipe($value['recipe']) );
+        }
+        return $recipes;  
+    }
+    /**
+     * Return list recipes from user 
+     */
+    public function setfavouritesRecipesUser($user, $recipe) {
+        $sql = "INSERT INTO favourites (user, recipe) VALUES (:user, :recipe)";
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("user", $user);
+        $sth->bindParam("recipe", $recipe);
+        $sth->execute();    
+    }
+    /**
+     * Return list recipes from user 
+     */
+    public function removefavouritesRecipesUser($user, $recipe) {
+        $sql = "DELETE FROM favourites WHERE user=:user AND recipe=:recipe";
+        $sth = $this->db->prepare($sql);
+        $sth->bindParam("user", $user);
+        $sth->bindParam("recipe", $recipe);
+        $sth->execute(); 
+        return $recipe; 
+ 
     }
 
     public function updateRecipe( $id, $input ) {
@@ -95,12 +138,12 @@ class RecipeModel{
         $sth->bindParam("name", $input['name']);
         $sth->bindParam("description", $input['description']); 
         $sth->bindParam("category", $input['category']);
-        $sth->bindParam("ingredients", $input['ingredients']);
+        $sth->bindParam("ingredients", serialize($input['ingredients']));
         $sth->bindParam("price", $input['price']); 
         $sth->bindParam("preparate", $input['preparate']);
         $sth->bindParam("comensals", $input['comensals']);
         $sth->bindParam("time", $input['time']); 
-        $sth->bindParam("alergens", $input['alergens']);
+        $sth->bindParam("alergens", serialize($input['alergens']));
         $sth->bindParam("user", $input['user']);
         $sth->bindParam("state", $input['state']); 
         $sth->bindParam("validate", $input['validate']);
