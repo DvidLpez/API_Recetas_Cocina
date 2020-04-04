@@ -29,5 +29,5 @@
       // New Favourites recipes user - OK
       $app->post('/recipes/favourites/{id}', 'RecipeController:setfavouritesRecipesUser');
       // Remove Favourites recipes user - OK
-      $app->delete('/recipes/favourites/{id}', 'RecipeController:removefavouritesRecipesUser');
+      $app->delete('/recipes/favourites/{id}/{id_recipe}', 'RecipeController:removefavouritesRecipesUser');
    });

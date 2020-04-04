@@ -143,9 +143,9 @@ class RecipeController
    public function removefavouritesRecipesUser( Request $request, Response $response, array $args) {
       try {
          $user_id = $args['id'];
-         $params = $request->getParsedBody();
+         $recipe_id = $args['id_recipe'];
          $recipeModel = new Recipe($this->database);
-         $recipe = $recipeModel->removefavouritesRecipesUser($user_id, $params['recipe']);
+         $recipe = $recipeModel->removefavouritesRecipesUser($user_id, $recipe_id);
          return $response->withJson(['status' => true, 'deleted' => $recipe], 200);
 
       } catch (\Exception $e) {
